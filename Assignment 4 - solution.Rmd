@@ -254,9 +254,12 @@ Create a visualization that shows the overlap between the two groups of clusters
 ```{r}
 #There are lots of ways to answer this question. A common way was to do a scatterplot of students coloring the points with one set of clusters and using shapes for the other set of clusters. I think better way is to use a mosaic plot that can be generated eithe through ggplot or with a specific package called vcd.
 
-table(ML$fit2c.cluster,ML$fit3a.cluster)
+DF <- data.frame(table(ML$fit2c.cluster,ML$fit3a.cluster))
 
+#dplyr way to generate the counts of each cluster pair
 ML2 <- ML %>% group_by(fit2c.cluster,fit3a.cluster) %>% summarize(count = n())
+#Don't use count
+count(DF, ...)
 #ML2$fit3a.cluster <- ifelse(ML2$fit3a.cluster == 1, "A","B")
 ggplot(ML2, aes(x = fit2c.cluster, y = fit3a.cluster, size = count)) + geom_point()
   #geom_bar(stat = "identity", position = "fill", colour = "black")
